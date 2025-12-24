@@ -1,0 +1,51 @@
+﻿@model List<POOII_EF_Jason_DavilaDelgado.Models.Seminario>
+
+@{
+    ViewData["Title"] = "Seminarios Disponibles";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Seminarios Cibertec - Primeros Ciclos</h2>
+
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-@TempData["TipoMensaje"] alert-dismissible fade show">
+            <strong>@TempData["Mensaje"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        @foreach (var seminario in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="@seminario.FotoUrl"
+                         class="card-img-top"
+                         alt="@seminario.NombreCurso"
+                         style="height: 200px; object-fit: cover;"
+                         onerror="this.src='/images/seminarios/default.jpg'">
+                    <div class="card-body">
+                        <h5 class="card-title">@seminario.NombreCurso</h5>
+                        <p class="card-text">
+                            <strong>Código:</strong> @seminario.CodigoSeminario<br>
+                            <strong>Horario:</strong> @seminario.HorarioClase
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary fs-6">
+                                @seminario.CapacidadSeminario plazas
+                            </span>
+                            <a asp-action="Registrar"
+                               asp-route-codigo="@seminario.CodigoSeminario"
+                               class="btn btn-success btn-sm">
+                                Registrarme
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

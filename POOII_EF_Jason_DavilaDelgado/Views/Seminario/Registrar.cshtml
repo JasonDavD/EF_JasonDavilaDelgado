@@ -1,0 +1,89 @@
+﻿@model POOII_EF_Jason_DavilaDelgado.Models.ViewModels.RegistroAsistenciaViewModel
+
+@{
+    ViewData["Title"] = "Registro al Seminario";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Registro al Seminario</h4>
+                </div>
+                <div class="card-body">
+
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-@ViewBag.TipoMensaje alert-dismissible fade show">
+                            <strong>@ViewBag.Mensaje</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (Model?.Seminario != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-5 text-center">
+                                <img src="@Model.Seminario.FotoUrl"
+                                     class="img-fluid rounded shadow-sm mb-3"
+                                     alt="@Model.Seminario.NombreCurso"
+                                     style="max-height: 250px; object-fit: cover;"
+                                     onerror="this.src='/images/seminarios/default.jpg'">
+                            </div>
+                            <div class="col-md-7">
+                                <div class="mb-4">
+                                    <h5 class="text-primary">@Model.Seminario.NombreCurso</h5>
+                                    <hr>
+                                    <p class="mb-2">
+                                        <strong>Código:</strong>
+                                        <span class="badge bg-secondary">@Model.Seminario.CodigoSeminario</span>
+                                    </p>
+                                    <p class="mb-2">
+                                        <strong>Horario:</strong> @Model.Seminario.HorarioClase
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>Plazas disponibles:</strong>
+                                        <span class="badge bg-success fs-6">@Model.Seminario.CapacidadSeminario</span>
+                                    </p>
+                                </div>
+
+                                <form asp-action="Registrar" asp-controller="Seminario" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" asp-for="CodigoSeminario" value="@Model.CodigoSeminario" />
+
+                                    <div class="mb-3">
+                                        <label asp-for="CodigoEstudiante" class="form-label">
+                                            <strong>Código de Estudiante *</strong>
+                                        </label>
+                                        <input asp-for="CodigoEstudiante"
+                                               class="form-control form-control-lg"
+                                               placeholder="Ejemplo: EST001"
+                                               maxlength="10"
+                                               required />
+                                    </div>
+
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            Enviar Registro
+                                        </button>
+                                        <a asp-action="Index" asp-controller="Seminario" class="btn btn-outline-secondary">
+                                            Cancelar
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            No se pudo cargar la información del seminario.
+                        </div>
+                        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
